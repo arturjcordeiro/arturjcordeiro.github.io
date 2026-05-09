@@ -1,1 +1,0 @@
-# arturjcordeiro.github.io
