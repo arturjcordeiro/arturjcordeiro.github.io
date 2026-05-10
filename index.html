@@ -1,90 +1,706 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <meta name="robots" content="noindex, nofollow">
-    
-    <title>My Portfolio</title>
-    <style>
-        /* This is the CSS that makes it look clean and modern */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f9f9f9;
-        }
-        header {
-            text-align: center;
-            padding: 40px 0;
-            border-bottom: 2px solid #eaeaea;
-        }
-        h1 { margin-bottom: 10px; color: #222; }
-        .subtitle { color: #666; font-size: 1.2em; }
-        section { padding: 30px 0; border-bottom: 1px solid #eaeaea; }
-        .project {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        .project h3 { margin-top: 0; }
-        a { color: #0366d6; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        .skills { display: flex; gap: 10px; flex-wrap: wrap; }
-        .skill-tag { 
-            background: #e1e4e8; 
-            padding: 5px 12px; 
-            border-radius: 20px; 
-            font-size: 0.9em; 
-            font-weight: 500;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow">
+  <title>Artur Cordeiro — Robotics Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #faf9f7;
+      --white: #ffffff;
+      --ink: #1a1a18;
+      --ink-light: #5a5a55;
+      --rule: #e2e0db;
+      --accent: #c8401a;
+      --serif: 'DM Serif Display', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.65;
+      font-weight: 300;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img, video { display: block; max-width: 100%; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      height: 60px;
+    }
+    .nav-name {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+    }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a {
+      font-size: 0.78rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+
+    /* ── HERO ── */
+    #hero {
+      padding: 160px 5% 100px;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: end;
+    }
+    @media (max-width: 720px) {
+      #hero { grid-template-columns: 1fr; padding: 120px 5% 60px; }
+      .hero-right, .nav-links { display: none; }
+    }
+
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .hero-left h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.8rem, 5.5vw, 4.2rem);
+      line-height: 1.08;
+      font-weight: 400;
+    }
+    .hero-left h1 em { font-style: italic; color: var(--ink-light); }
+    .hero-sub {
+      margin-top: 28px;
+      font-size: 1rem;
+      color: var(--ink-light);
+      max-width: 420px;
+      line-height: 1.7;
+    }
+    .hero-contacts {
+      margin-top: 36px;
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .hero-contacts a {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--ink);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .hero-contacts a:hover { color: var(--accent); border-color: var(--accent); }
+
+    .hero-facts { border-top: 1px solid var(--rule); }
+    .hero-fact {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--rule);
+      font-size: 0.88rem;
+    }
+    .fact-label { color: var(--ink-light); }
+    .fact-val { font-weight: 500; text-align: right; }
+
+    /* ── DIVIDERS ── */
+    .rule { padding: 0 5%; max-width: 1200px; margin: 0 auto; }
+    .rule hr { border: none; border-top: 1px solid var(--rule); }
+
+    /* ── SECTION HEADER ── */
+    .section-header {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 70px 5% 48px;
+      display: flex;
+      align-items: baseline;
+      gap: 20px;
+    }
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      white-space: nowrap;
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 400;
+      line-height: 1.15;
+    }
+
+    /* ── PROJECTS ── */
+    #projects { padding-bottom: 80px; }
+
+    .project {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 5% 72px;
+    }
+
+    .project-topbar {
+      display: flex;
+      align-items: baseline;
+      gap: 20px;
+      margin-bottom: 28px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--rule);
+      flex-wrap: wrap;
+    }
+    .project-num {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--ink-light);
+      min-width: 28px;
+    }
+    .project-name {
+      font-family: var(--serif);
+      font-size: clamp(1.4rem, 2.8vw, 2rem);
+      font-weight: 400;
+      line-height: 1.1;
+    }
+    .project-badge {
+      margin-left: auto;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    /* Main layout */
+    .project-layout {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: 40px;
+      align-items: start;
+    }
+    .project-layout.flip {
+      grid-template-columns: 2fr 3fr;
+    }
+    .project-layout.flip .project-media { order: 2; }
+    .project-layout.flip .project-info  { order: 1; }
+    @media (max-width: 800px) {
+      .project-layout, .project-layout.flip { grid-template-columns: 1fr; }
+      .project-layout.flip .project-media { order: 1; }
+      .project-layout.flip .project-info  { order: 2; }
+    }
+
+    .project-media { display: flex; flex-direction: column; gap: 10px; }
+
+    .media-main {
+      width: 100%;
+      background: #ece9e3;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      position: relative;
+    }
+    .media-main img, .media-main video {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .media-main iframe {
+      width: 100%; height: 100%; border: none;
+    }
+    .media-placeholder-inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink-light);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .media-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .media-thumb {
+      background: #ece9e3;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+    }
+    .media-thumb img, .media-thumb video {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+
+    /* Info */
+    .project-tagline {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+    .project-desc {
+      font-size: 0.95rem;
+      color: var(--ink-light);
+      margin-bottom: 24px;
+      line-height: 1.75;
+    }
+    .project-did-title {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink);
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+    .project-did { list-style: none; margin-bottom: 28px; }
+    .project-did li {
+      font-size: 0.88rem;
+      color: var(--ink);
+      padding: 9px 0;
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      gap: 10px;
+      line-height: 1.5;
+    }
+    .project-did li::before { content: '—'; color: var(--accent); flex-shrink: 0; }
+
+    .project-tech { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+    .tech-pill {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      padding: 5px 12px;
+      border: 1px solid var(--rule);
+      border-radius: 100px;
+      color: var(--ink-light);
+    }
+
+    .project-links { display: flex; gap: 16px; flex-wrap: wrap; }
+    .proj-link {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 2px;
+      transition: color 0.2s;
+    }
+    .proj-link.primary { color: var(--accent); }
+    .proj-link:hover { color: var(--accent); }
+
+    /* ── ABOUT ── */
+    #about {
+      background: var(--white);
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+    .about-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 72px 5%;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 60px;
+    }
+    @media (max-width: 720px) { .about-inner { grid-template-columns: 1fr; } }
+    .about-left {
+      font-family: var(--serif);
+      font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+      line-height: 1.25;
+    }
+    .about-left em { font-style: italic; color: var(--ink-light); }
+    .about-right { color: var(--ink-light); font-size: 0.95rem; line-height: 1.8; }
+    .about-right p + p { margin-top: 16px; }
+
+    /* ── CONTACT ── */
+    #contact {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 5% 100px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    @media (max-width: 720px) { #contact { grid-template-columns: 1fr; } }
+    #contact h2 {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 400;
+      line-height: 1.15;
+    }
+    #contact h2 em { font-style: italic; color: var(--ink-light); }
+    .contact-right p {
+      font-size: 0.95rem;
+      color: var(--ink-light);
+      margin-bottom: 28px;
+      line-height: 1.7;
+    }
+    .contact-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    .cta-link {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 2px;
+      transition: color 0.2s;
+    }
+    .cta-link.primary { color: var(--accent); }
+    .cta-link:hover { color: var(--accent); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--rule);
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 5%;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: var(--ink-light);
+    }
+
+    /* ── REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.on { opacity: 1; transform: none; }
+  </style>
 </head>
 <body>
 
-    <header>
-        <h1>Your Name</h1>
-        <p class="subtitle">Software Engineer / Robotics Developer</p>
-        <p><a href="mailto:your.email@example.com">your.email@example.com</a> | <a href="https://github.com/yourusername">GitHub</a></p>
-    </header>
+<nav>
+  <div class="nav-name">Artur Cordeiro</div>
+  <div class="nav-links">
+    <a href="#projects">Projects</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
 
-    <section id="about">
-        <h2>About Me</h2>
-        <p>Hi 👋, I'm a passionate developer excited about building cool things. I love sharing my skills and creating projects that solve real-world problems.</p>
-    </section>
+<!-- HERO -->
+<div id="hero">
+  <div class="hero-left reveal">
+    <p class="hero-eyebrow">Robotics · AI · Computer Vision</p>
+    <h1>Building robots<br>that <em>see</em>act, and sometimes think.</h1>
+    <p class="hero-sub">
+      R&D Software Engineer at INESC TEC, Porto.
+      PhD in Robotics & Computer Vision. Focused on manipulation, and perception, using AI and classic methods.
+    </p>
+    <div class="hero-contacts">
+      <a href="mailto:arturjvcordeiro@gmail.com">Email</a>
+      <a href="https://github.com/arturjcordeiro" target="_blank">GitHub</a>
+      <a href="https://linkedin.com/in/artur-j-cordeiro" target="_blank">LinkedIn</a>
+      <a href="https://scholar.google.com/arturcordeiro" target="_blank">Scholar</a>
+    </div>
+  </div>
+  <div class="hero-right reveal" style="transition-delay:.15s">
+    <div class="hero-facts">
+      <div class="hero-fact">
+        <span class="fact-label">Current role</span>
+        <span class="fact-val">R&D Engineer, INESC TEC</span>
+      </div>
+      <div class="hero-fact">
+        <span class="fact-label">PhD</span>
+        <span class="fact-val">Robotics & CV — 19/20</span>
+      </div>
+      <div class="hero-fact">
+        <span class="fact-label">Based in</span>
+        <span class="fact-val">Porto, Portugal</span>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <section id="skills">
-        <h2>Skills</h2>
-        <div class="skills">
-            <span class="skill-tag">C++</span>
-            <span class="skill-tag">Python</span>
-            <span class="skill-tag">ROS2</span>
-            <span class="skill-tag">Machine Learning</span>
+<!-- PROJECTS -->
+<div class="rule"><hr></div>
+
+<div id="projects">
+  <div class="section-header">
+    <span class="section-label">Work</span>
+    <h2 class="section-title">Projects</h2>
+  </div>
+
+  <!-- 01 DEPALLETIZER -->
+  <div class="project reveal">
+    <div class="project-topbar">
+      <span class="project-num">01</span>
+      <h3 class="project-name">Automated Depalletizer</h3>
+      <span class="project-badge">Produtech R3</span>
+    </div>
+    <div class="project-layout">
+      <div class="project-media">
+        <div class="media-main">
+          <iframe
+            src="https://www.youtube.com/embed/YNhIOHdhT4g?start=274&rel=0"
+            title="Automated Depalletizer demo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
         </div>
-    </section>
-
-    <section id="projects">
-        <h2>Featured Projects</h2>
-        
-        <div class="project">
-            <h3>Autonomous Robot Navigation</h3>
-            <p>Developed an algorithm for a mobile robot to navigate a warehouse environment and avoid obstacles in real-time.</p>
-            <a href="#">View Code &rarr;</a>
+        <!-- Add extra thumbnails when you have images:
+        <div class="media-strip">
+          <div class="media-thumb"><img src="images/depal_01.jpg" alt=""></div>
+          <div class="media-thumb"><img src="images/depal_02.jpg" alt=""></div>
+        </div> -->
+      </div>
+      <div class="project-info">
+        <p class="project-tagline">Industrial Perception · Autonomous Pick & Place</p>
+        <p class="project-desc">
+          Fully autonomous depalletizing system handling mixed box sizes and orientations
+          in real warehouse and automotive environments — zero human intervention per cycle.
+        </p>
+        <p class="project-did-title">What I built</p>
+        <ul class="project-did">
+          <li>x.</li>
+          <li>Grasp pose generator handling varied box sizes, orientations, and stacking patterns.</li>
+        </ul>
+        <div class="project-tech">
+          <span class="tech-pill">ROS2</span>
+          <span class="tech-pill">C++</span>
+          <span class="tech-pill">RGB-D</span>
+          <span class="tech-pill">PCL</span>
+          <span class="tech-pill">Universal Robots</span>
         </div>
-        
-        <div class="project">
-            <h3>Project Name 2</h3>
-            <p>A brief description of what this project does. Mention the tools you used and what the outcome was.</p>
-            <a href="#">View Code &rarr;</a>
+        <div class="project-links">
+          <a href="https://github.com/arturjcordeiro" class="proj-link" target="_blank">GitHub →</a>
         </div>
+      </div>
+    </div>
+  </div>
 
-    </section>
+  <div class="rule"><hr></div>
 
+  <!-- 02 DISMANTLING -->
+  <div class="project reveal">
+    <div class="project-topbar">
+      <span class="project-num">02</span>
+      <h3 class="project-name">Dismantling Cell — Electronics</h3>
+      <span class="project-badge">Horizon Europe · Ibot4CRMs</span>
+    </div>
+    <div class="project-layout flip">
+      <div class="project-media">
+        <!-- Swap placeholder for your video when ready:
+        <div class="media-main">
+          <video autoplay muted loop playsinline src="videos/dismantling.mp4"></video>
+        </div> -->
+        <div class="media-main">
+          <div class="media-placeholder-inner">Video — videos/dismantling.mp4</div>
+        </div>
+      </div>
+      <div class="project-info">
+        <p class="project-tagline">Embodied AI · LLM Agents · Learning from Demonstration</p>
+        <p class="project-desc">
+          Autonomous system for dismantling end-of-life consumer electronics — LCDs, HDDs,
+          and desktop PCs — using LLM-based reasoning and demonstration-based learning,
+          without hard-coded task sequences.
+        </p>
+        <p class="project-did-title">What I built</p>
+        <ul class="project-did">
+          <li>x.</li>
+        </ul>
+        <div class="project-tech">
+          <span class="tech-pill">ROS2</span>
+          <span class="tech-pill">LLM / VLM</span>
+          <span class="tech-pill">LfD</span>
+          <span class="tech-pill">PyTorch</span>
+          <span class="tech-pill">C++</span>
+          <span class="tech-pill">Python</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/arturjcordeiro" class="proj-link" target="_blank">GitHub →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule"><hr></div>
+
+  <!-- 03 SHIPYARD -->
+  <div class="project reveal">
+    <div class="project-topbar">
+      <span class="project-num">03</span>
+      <h3 class="project-name">Shipyard Mobile Manipulation</h3>
+      <span class="project-badge">EU · Mari4Yard — 🏆 2025 Award</span>
+    </div>
+    <div class="project-layout">
+      <div class="project-media">
+        <!-- <div class="media-main"><video autoplay muted loop playsinline src="videos/shipyard.mp4"></video></div> -->
+        <div class="media-main">
+          <div class="media-placeholder-inner">Video — videos/shipyard.mp4</div>
+        </div>
+      </div>
+      <div class="project-info">
+        <p class="project-tagline">Structured Light · 3D Perception · Mobile Robots</p>
+        <p class="project-desc">
+          Autonomous detection and manipulation of large structural components on the
+          shipyard floor — one of the most challenging environments for computer vision.
+        </p>
+        <p class="project-did-title">What I built</p>
+        <ul class="project-did">
+          <li>2D/3D perception system with Photoneo PhoXi structured-light camera for high-accuracy 3D reconstruction.</li>
+          <li>Detection pipeline robust to metallic reflections, occlusions, and variable outdoor lighting.</li>
+        </ul>
+        <div class="project-tech">
+          <span class="tech-pill">CNN</span>
+          <span class="tech-pill">ROS</span>
+          <span class="tech-pill">C++</span>
+          <span class="tech-pill">PCL</span>
+          <span class="tech-pill">Tensorflow</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/arturjcordeiro" class="proj-link" target="_blank">GitHub →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule"><hr></div>
+
+  <!-- 04 WAREHOUSE -->
+  <div class="project reveal">
+    <div class="project-topbar">
+      <span class="project-num">04</span>
+      <h3 class="project-name">Warehouse Mobile Manipulators</h3>
+      <span class="project-badge">EU · MomaFlex</span>
+    </div>
+    <div class="project-layout flip">
+      <div class="project-media">
+        <div class="media-main">
+          <div class="media-placeholder-inner">Video — videos/warehouse.mp4</div>
+        </div>
+      </div>
+      <div class="project-info">
+        <p class="project-tagline">Mobile Manipulation · Logistics · Multi-Robot</p>
+        <p class="project-desc">
+          Perception, planning, and task management backbone for a fleet of collaborative
+          mobile manipulators in a live warehouse with dynamic layouts and mixed SKUs.
+        </p>
+        <p class="project-did-title">What I built</p>
+        <ul class="project-did">
+          <li>Full perception pipeline for detection, segmentation, and grasp pose generation across mixed product types.</li>
+          <li>Mission task manager coordinating multi-robot operations, failures, and retries.</li>
+          <li>Integrated navigation, motion planning, and manipulation in a unified stack.</li>
+        </ul>
+        <div class="project-tech">
+          <span class="tech-pill">Pytorch</span>
+          <span class="tech-pill">CNN</span>
+          <span class="tech-pill">RGB-D</span>
+          <span class="tech-pill">Haptic</span>
+          <span class="tech-pill">C++</span>
+          <span class="tech-pill">Python</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/arturjcordeiro" class="proj-link" target="_blank">GitHub →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rule"><hr></div>
+
+  <!-- 05 AEROSPACE -->
+  <div class="project reveal">
+    <div class="project-topbar">
+      <span class="project-num">05</span>
+      <h3 class="project-name">Welding Gap Quality Control</h3>
+      <span class="project-badge">Hi REv</span>
+    </div>
+    <div class="project-layout">
+      <div class="project-media">
+        <div class="media-main">
+          <div class="media-placeholder-inner">Image — images/qualitycontrol.jpg</div>
+        </div>
+      </div>
+      <div class="project-info">
+        <p class="project-tagline">Quality Control</p>
+        <p class="project-desc">
+          Fully automated gap measurement and quality inspection for aerospace components,
+          achieving sub-millimeter precision with a 2D/3D profile sensor on an ABB manipulator.
+        </p>
+        <p class="project-did-title">What I built</p>
+        <ul class="project-did">
+          <li>C# API for real-time data acquisition from a Wenglor 2D/3D Profile Sensor.</li>
+          <li>Automated robot path generation for full-coverage inspection of complex geometry.</li>
+          <li>Gap detection with configurable tolerance thresholds and pass/fail reporting.</li>
+        </ul>
+        <div class="project-tech">
+          <span class="tech-pill">C#</span>
+          <span class="tech-pill">ABB IRB 2600</span>
+          <span class="tech-pill">Wenglor</span>
+          <span class="tech-pill">2D/3D Profiler</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/arturjcordeiro" class="proj-link" target="_blank">GitHub →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /projects -->
+
+<!-- ABOUT -->
+<div id="about">
+  <div class="about-inner">
+    <div class="about-left reveal">
+      Shipping robots<br>from lab to <em>factory floor.</em>
+    </div>
+    <div class="about-right reveal" style="transition-delay:.1s">
+      <p>
+        I'm an R&D Software Engineer at INESC TEC in Porto, working at the intersection of
+        robot perception, manipulation, and embodied AI.
+      </p>
+      <p>
+        I've contributed to EU and national R&D projects — from autonomous shipyard logistics
+        to electronics dismantling.
+      </p>
+      <p style="margin-top:24px">
+        <a href="mailto:arturjvcordeiro@gmail.com" class="cta-link primary">Get in touch →</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<div style="border-top:1px solid var(--rule)"></div>
+<footer>
+  <span>Artur Cordeiro · Porto, Portugal</span>
+  <span>arturjvcordeiro@gmail.com</span>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.07 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
 </body>
 </html>
