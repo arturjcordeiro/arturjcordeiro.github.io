@@ -457,28 +457,28 @@
 
   <!-- ══════════════════════════════════
        01  DEPALLETIZER
-       1 YouTube video + 2 images
+       1 YouTube video + 2 images + 2 more videos + 1 more image
   ══════════════════════════════════ -->
-  <div class="project reveal">
-    <div class="project-topbar">
-      <span class="project-num">01</span>
-      <h3 class="project-name">Container Unloader</h3>
-      <span class="project-badge">Produtech R3</span>
+<div class="project reveal">
+  <div class="project-topbar">
+    <span class="project-num">01</span>
+    <h3 class="project-name">Container Unloader</h3>
+    <span class="project-badge">Produtech R3</span>
+  </div>
+  <div class="project-media">
+    <div class="media-primary" id="p01-main">
+      <iframe
+        src="https://www.youtube.com/embed/YNhIOHdhT4g?start=274&rel=0"
+        title="Automated Depalletizer demo"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
     </div>
-
-    <div class="project-media">
-      <div class="media-primary" id="p01-main">
-        <iframe
-          src="https://www.youtube.com/embed/YNhIOHdhT4g?start=274&rel=0"
-          title="Automated Depalletizer demo"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
-      </div>
-      <div class="media-strip" style="grid-template-columns: repeat(3, 1fr)">
+    <div class="media-strip-wrapper">
+      <div class="media-strip">
         <div class="media-thumb active" data-type="video"
              onclick="swap('p01-main','iframe','https://www.youtube.com/embed/YNhIOHdhT4g?start=274&rel=0',this)">
-          <img src="https://img.youtube.com/vi/YNhIOHdhT4g/mqdefault.jpg" alt="Video">
+          <img src="https://img.youtube.com/vi/YNhIOHdhT4g/mqdefault.jpg" alt="Video 1">
         </div>
         <div class="media-thumb" data-type="image"
              onclick="swap('p01-main','img','figures/depal_01.jpg',this)">
@@ -488,8 +488,25 @@
              onclick="swap('p01-main','img','figures/depal_02.jpg',this)">
           <div class="thumb-label">figures/depal_02.jpg</div>
         </div>
+        <!-- NEW: 2 more videos -->
+        <div class="media-thumb" data-type="video"
+             onclick="swap('p01-main','iframe','https://www.youtube.com/watch?v=FZ1UidJYv08',this)">
+          <img src="https://www.youtube.com/watch?v=FZ1UidJYv08/mqdefault.jpg" alt="Video 2">
+        </div>
+        <div class="media-thumb" data-type="video"
+             onclick="swap('p01-main','iframe','https://www.youtube.com/embed/VIDEO_ID_3?rel=0',this)">
+          <img src="https://img.youtube.com/vi/VIDEO_ID_3/mqdefault.jpg" alt="Video 3">
+        </div>
+        <!-- NEW: 1 more image -->
+        <div class="media-thumb" data-type="image"
+             onclick="swap('p01-main','img','figures/depal_03.jpg',this)">
+          <div class="thumb-label">figures/depal_03.jpg</div>
+        </div>
       </div>
+      <div class="media-strip-arrow" onclick="this.previousElementSibling.scrollBy({left:200,behavior:'smooth'})">&#8250;</div>
     </div>
+  </div>
+</div>
 
     <div class="project-info-row">
       <div>
