@@ -225,9 +225,61 @@
     }
 
     /* Thumbnail strip */
+    .media-strip-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
     .media-strip {
-      display: grid;
-      gap: 10px;
+      display: flex;           /* flex row instead of grid */
+      gap: 8px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;   /* hide scrollbar Firefox */
+      -ms-overflow-style: none;
+      padding-right: 36px;     /* room for the arrow */
+    }
+    
+    .media-strip::-webkit-scrollbar {
+      display: none;           /* hide scrollbar Chrome/Safari */
+    }
+    
+    .media-thumb {
+      flex: 0 0 calc(33.333% - 6px); /* show ~3 thumbs at a time */
+      scroll-snap-align: start;
+    }
+    
+    /* Fade-out effect on the right edge */
+    .media-strip-wrapper::after {
+      content: '';
+      position: absolute;
+      right: 36px;
+      top: 0; bottom: 0;
+      width: 32px;
+      background: linear-gradient(to right, transparent, var(--bg-color, #fff));
+      pointer-events: none;
+    }
+    
+    /* The › arrow button */
+    .media-strip-arrow {
+      position: absolute;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 100%;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: #666;
+      user-select: none;
+      background: transparent;
+      transition: color 0.2s;
+    }
+    
+    .media-strip-arrow:hover {
+      color: #000;
     }
     .media-thumb {
       aspect-ratio: 16/9;
