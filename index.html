@@ -227,18 +227,23 @@
     /* Thumbnail strip */
     .media-strip-wrapper {
       position: relative;
-      display: flex;
-      align-items: center;
+      width: 100%;
     }
 
     .media-strip {
-      display: flex;           /* flex row instead of grid */
+      width: 100%;
+      display: flex;
       gap: 8px;
       overflow-x: auto;
       scroll-snap-type: x mandatory;
-      scrollbar-width: none;   /* hide scrollbar Firefox */
+      scrollbar-width: none;
       -ms-overflow-style: none;
-      padding-right: 36px;     /* room for the arrow */
+      padding: 0 32px;
+      box-sizing: border-box; /* important so padding doesn't add extra width */
+    }
+
+    .media-strip-wrapper::after {
+      right: 32px; /* align fade with right arrow */
     }
     
     .media-strip::-webkit-scrollbar {
@@ -251,36 +256,38 @@
     }
     
     /* Fade-out effect on the right edge */
-    .media-strip-wrapper::after {
-      content: '';
-      position: absolute;
-      right: 36px;
-      top: 0; bottom: 0;
-      width: 32px;
-      background: linear-gradient(to right, transparent, var(--bg-color, #fff));
-      pointer-events: none;
-    }
     
     /* The › arrow button */
     .media-strip-arrow {
       position: absolute;
-      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 32px;
+      height: 32px; /* fixed height instead of top/bottom stretch */
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 32px;
-      height: 100%;
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       cursor: pointer;
       color: #666;
       user-select: none;
-      background: transparent;
+      z-index: 1;
       transition: color 0.2s;
     }
-    
-    .media-strip-arrow:hover {
-      color: #000;
+
+    .media-strip-arrow:hover { color: #000; }
+
+    .media-strip-arrow.left {
+      left: 0;
+      background: linear-gradient(to right, rgba(255,255,255,0.8), transparent);
     }
+
+    .media-strip-arrow.right {
+      right: 0;
+      background: linear-gradient(to left, rgba(255,255,255,0.8), transparent);
+    }
+    .media-strip:not([data-at-start="false"]) ~ .dummy { display:none }
+
     .media-thumb {
       aspect-ratio: 16/9;
       background: #e8e5df;
@@ -508,7 +515,7 @@
   </div>
 
   <!-- ══════════════════════════════════
-       01  DEPALLETIZER
+       01  Container Unloader
        1 YouTube video + 2 images + 2 more videos + 1 more image
   ══════════════════════════════════ -->
 <div class="project reveal">
@@ -527,6 +534,7 @@
       </iframe>
     </div>
     <div class="media-strip-wrapper">
+      <div class="media-strip-arrow left" onclick="this.nextElementSibling.scrollBy({left:-200,behavior:'smooth'})">&#8249;</div>
       <div class="media-strip">
         <div class="media-thumb active" data-type="video"
              onclick="swap('p01-main','iframe','https://www.youtube.com/embed/YNhIOHdhT4g?start=274&rel=0',this)">
@@ -541,13 +549,13 @@
           <div class="thumb-label">figures/depal_02.jpg</div>
         </div>
         <!-- NEW: 2 more videos -->
-        <div class="media-thumb" data-type="video"
-             onclick="swap('p01-main','iframe','https://www.youtube.com/watch?v=FZ1UidJYv08',this)">
-          <img src="https://www.youtube.com/watch?v=FZ1UidJYv08/mqdefault.jpg" alt="Video 2">
+        <div class="media-thumb" data-type="image"
+             onclick="swap('p01-main','img','figures/depal_01.jpg',this)">
+          <div class="thumb-label">figures/depal_01.jpg</div>
         </div>
-        <div class="media-thumb" data-type="video"
-             onclick="swap('p01-main','iframe','https://www.youtube.com/embed/VIDEO_ID_3?rel=0',this)">
-          <img src="https://img.youtube.com/vi/VIDEO_ID_3/mqdefault.jpg" alt="Video 3">
+        <div class="media-thumb" data-type="image"
+             onclick="swap('p01-main','img','figures/depal_01.jpg',this)">
+          <div class="thumb-label">figures/depal_01.jpg</div>
         </div>
         <!-- NEW: 1 more image -->
         <div class="media-thumb" data-type="image"
@@ -555,42 +563,43 @@
           <div class="thumb-label">figures/depal_03.jpg</div>
         </div>
       </div>
-      <div class="media-strip-arrow" onclick="this.previousElementSibling.scrollBy({left:200,behavior:'smooth'})">&#8250;</div>
-    </div>
-    
-    <div class="project-info-row">
-      <div>
-        <p class="project-tagline">Industrial Perception · Container Unloader</p>
-        <p class="project-desc">
-          Fully autonomous container unloader system handling mixed box sizes and orientations
-          in real warehouse and automotive environments — zero human intervention per cycle.
-          Built the full stack from raw point cloud to placed box, including the grasp pose
-          generator and ROS2 orchestration layer.
-        </p>
-        <div class="project-tech">
-          <span class="tech-pill">ROS2</span>
-          <span class="tech-pill">C++</span>
-          <span class="tech-pill">RGB-D</span>
-          <span class="tech-pill">PCL</span>
-          <span class="tech-pill">OpenCV</span>
-          <span class="tech-pill">Onnx</span>
-          <span class="tech-pill">Universal Robots</span>
-        </div>
-        <div class="project-links">
-          <span class="proj-link" style="opacity:.4; cursor:default">Private Code</span>
-          <a href="#" class="proj-link" target="_blank">Paper →</a>
-        </div>
-      </div>
-      <div class="hardware-block">
-        <p class="hardware-label">Hardware</p>
-        <ul class="hardware-list">
-          <li>Universal Robots UR30</li>
-          <li>Photoneo Motion Camera</li>
-          <li>Onrobot VGC20</li>
-        </ul>
-      </div>
+      <div class="media-strip-arrow right" onclick="this.previousElementSibling.scrollBy({left:200,behavior:'smooth'})">&#8250;</div>
     </div>
   </div>
+    
+  <div class="project-info-row">
+    <div>
+      <p class="project-tagline">Industrial Perception · Container Unloader</p>
+      <p class="project-desc">
+        Fully autonomous container unloader system handling mixed box sizes and orientations
+        in real warehouse and automotive environments — zero human intervention per cycle.
+        Built the full stack from raw point cloud to placed box, including the grasp pose
+        generator and ROS2 orchestration layer.
+      </p>
+      <div class="project-tech">
+        <span class="tech-pill">ROS2</span>
+        <span class="tech-pill">C++</span>
+        <span class="tech-pill">RGB-D</span>
+        <span class="tech-pill">PCL</span>
+        <span class="tech-pill">OpenCV</span>
+        <span class="tech-pill">Onnx</span>
+        <span class="tech-pill">Universal Robots</span>
+      </div>
+      <div class="project-links">
+        <span class="proj-link" style="opacity:.4; cursor:default">Private Code</span>
+        <a href="#" class="proj-link" target="_blank">Paper →</a>
+      </div>
+    </div>
+    <div class="hardware-block">
+      <p class="hardware-label">Hardware</p>
+      <ul class="hardware-list">
+        <li>Universal Robots UR30</li>
+        <li>Photoneo Motion Camera</li>
+        <li>Onrobot VGC20</li>
+      </ul>
+    </div>
+  </div>
+</div>
 
   <div class="rule"><hr></div>
 
@@ -606,65 +615,79 @@
     </div>
 
     <div class="project-media">
-      <div class="media-primary" id="p02-main">
-        <video autoplay muted loop playsinline>
-          <source src="videos/dismantling.mp4" type="video/mp4">
-        </video>
-        <div class="media-placeholder">videos/dismantling.mp4</div>
-      </div>
-      <div class="media-strip" style="grid-template-columns: repeat(4, 1fr)">
-        <div class="media-thumb active" data-type="video"
-             onclick="swap('p02-main','video','videos/dismantling.mp4',this)">
-          <div class="thumb-label" style="background:#c8c0b4">dismantling.mp4</div>
-        </div>
-        <div class="media-thumb" data-type="image"
-             onclick="swap('p02-main','img','figures/dismantling_01.jpg',this)">
-          <div class="thumb-label">figures/dismantling_01.jpg</div>
-        </div>
-        <div class="media-thumb" data-type="image"
-             onclick="swap('p02-main','img','figures/dismantling_02.jpg',this)">
-          <div class="thumb-label">figures/dismantling_02.jpg</div>
-        </div>
-        <div class="media-thumb" data-type="image"
-             onclick="swap('p02-main','img','figures/dismantling_03.jpg',this)">
-          <div class="thumb-label">figures/dismantling_03.jpg</div>
-        </div>
-      </div>
+    <div class="media-primary" id="p02-main">
+      <iframe
+        src="videos/02/1.mp4"
+        title="Automated Depalletizer demo"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
     </div>
-
-    <div class="project-info-row">
-      <div>
-        <p class="project-tagline">Integrated Systems · LLM Agents · Learning from Demonstration · Visual Servoing</p>
-        <p class="project-desc">
-          Autonomous system for dismantling end-of-life consumer electronics — LCDs, HDDs,
-          and desktop PCs, using LLM-based reasoning and demonstration-based learning,
-          without hard-coded task sequences. The robot reads the object, plans a disassembly
-          strategy, and adapts to unseen product variants.
-        </p>
-        <div class="project-tech">
-          <span class="tech-pill">ROS2</span>
-          <span class="tech-pill">LLM / VLM</span>
-          <span class="tech-pill">LfD</span>
-          <span class="tech-pill">PyTorch</span>
-          <span class="tech-pill">C++</span>
-          <span class="tech-pill">Python</span>
+    <div class="media-strip-wrapper">
+      <div class="media-strip-arrow left" onclick="this.nextElementSibling.scrollBy({left:-200,behavior:'smooth'})">&#8249;</div>
+      <div class="media-strip">
+        <div class="media-thumb active" data-type="video"
+            onclick="swap('p02-main','https://www.youtube.com/embed/YNhIOHdhT4g?start=274&rel=0',this)">
+          <img src="https://img.youtube.com/vi/YNhIOHdhT4g/mqdefault.jpg" alt="Video 1">
         </div>
-        <div class="project-links">
-          <span class="proj-link" style="opacity:.4; cursor:default">Private Code</span>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','images/02/1.jpeg',this)">
+          <img src="images/02/1.jpeg" alt="Image 1">
+        </div>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','figures/depal_02.jpg',this)">
+          <div class="thumb-label">figures/depal_02.jpg</div>
+        </div>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','figures/depal_01.jpg',this)">
+          <div class="thumb-label">figures/depal_01.jpg</div>
+        </div>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','figures/depal_01.jpg',this)">
+          <div class="thumb-label">figures/depal_01.jpg</div>
+        </div>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','figures/depal_03.jpg',this)">
+          <div class="thumb-label">figures/depal_03.jpg</div>
         </div>
       </div>
-      <div class="hardware-block">
-        <p class="hardware-label">Hardware</p>
-        <ul class="hardware-list">
-          <li>Kuka iiwa</li>
-          <li>High Resolution RGB Camera</li>
-          <li>Photoneo Scanner XL</li>
-          <li>Zivid One+</li>
-          <li>Kolver Screwdriver</li>
-        </ul>
-      </div>
+      <div class="media-strip-arrow right" onclick="this.previousElementSibling.scrollBy({left:200,behavior:'smooth'})">&#8250;</div>
     </div>
   </div>
+
+  <div class="project-info-row">
+    <div>
+      <p class="project-tagline">Integrated Systems · LLM Agents · Learning from Demonstration · Visual Servoing</p>
+      <p class="project-desc">
+        Autonomous system for dismantling end-of-life consumer electronics — LCDs, HDDs,
+        and desktop PCs, using LLM-based reasoning and demonstration-based learning,
+        without hard-coded task sequences. The robot reads the object, plans a disassembly
+        strategy, and adapts to unseen product variants.
+      </p>
+      <div class="project-tech">
+        <span class="tech-pill">ROS2</span>
+        <span class="tech-pill">LLM / VLM</span>
+        <span class="tech-pill">LfD</span>
+        <span class="tech-pill">PyTorch</span>
+        <span class="tech-pill">C++</span>
+        <span class="tech-pill">Python</span>
+      </div>
+      <div class="project-links">
+        <span class="proj-link" style="opacity:.4; cursor:default">Private Code</span>
+      </div>
+    </div>
+    <div class="hardware-block">
+      <p class="hardware-label">Hardware</p>
+      <ul class="hardware-list">
+        <li>Kuka iiwa</li>
+        <li>High Resolution RGB Camera</li>
+        <li>Photoneo Scanner XL</li>
+        <li>Zivid One+</li>
+        <li>Kolver Screwdriver</li>
+      </ul>
+    </div>
+  </div>
+</div>
 
   <div class="rule"><hr></div>
 
@@ -680,64 +703,80 @@
     </div>
 
     <div class="project-media">
-      <div class="media-primary" id="p03-main">
-        <iframe
-          src="https://www.youtube.com/embed/vBgUQ1Zski8"
-          title="Shipyard Mobile Manipulation demo"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
-      </div>
-      <div class="media-strip" style="grid-template-columns: repeat(3, 1fr)">
-        <div class="media-thumb active" data-type="video"
-             onclick="swap('p03-main','iframe','https://youtu.be/vBgUQ1Zski8?si=5khdUN-vBFk5wqDV',this)">
-          <img src="https://img.youtube.com/vi/vBgUQ1Zski8/mqdefault.jpg" alt="Video">
-        </div>
-        <div class="media-thumb" data-type="image"
-             onclick="swap('p03-main','img','figures/shipyard_01.jpg',this)">
-          <div class="thumb-label">figures/shipyard_01.jpg</div>
-        </div>
-        <div class="media-thumb" data-type="image"
-             onclick="swap('p03-main','img','figures/shipyard_02.jpg',this)">
-          <div class="thumb-label">figures/shipyard_02.jpg</div>
-        </div>
-      </div>
+    <div class="media-primary" id="p03-main">
+      <iframe
+        src="https://youtu.be/vBgUQ1Zski8?si=5khdUN-vBFk5wqDV"
+        title="Automated Depalletizer demo"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
     </div>
-
-    <div class="project-info-row">
-      <div>
-        <p class="project-tagline">Structured Light · 3D Perception · Mobile Robots</p>
-        <p class="project-desc">
-          Autonomous detection and manipulation of large structural components on the shipyard
-          floor, one of the most challenging environments for computer vision: metallic surfaces,
-          outdoor lighting variation, and heavy occlusion. Built the full 2D/3D perception stack
-          using a Photoneo PhoXi structured-light camera for high-accuracy reconstruction
-          and robust component localisation.
-        </p>
-        <div class="project-tech">
-          <span class="tech-pill">CNN</span>
-          <span class="tech-pill">ROS</span>
-          <span class="tech-pill">C++</span>
-          <span class="tech-pill">PCL</span>
-          <span class="tech-pill">TensorFlow</span>
-          <span class="tech-pill">Photoneo PhoXi</span>
+    <div class="media-strip-wrapper">
+      <div class="media-strip-arrow left" onclick="this.nextElementSibling.scrollBy({left:-200,behavior:'smooth'})">&#8249;</div>
+      <div class="media-strip">
+        <div class="media-thumb active" data-type="video"
+            onclick="swap('p02-main','https://www.youtube.com/embed/YNhIOHdhT4g?start=274&rel=0',this)">
+          <img src="https://img.youtube.com/vi/YNhIOHdhT4g/mqdefault.jpg" alt="Video 1">
         </div>
-        <div class="project-links">
-          <span class="proj-link" style="opacity:.4; cursor:default">Private Code</span>
-          <a href="https://www.mdpi.com/2079186" class="proj-link" target="_blank">Paper →</a>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','images/02/1.jpeg',this)">
+          <img src="images/02/1.jpeg" alt="Image 1">
+        </div>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','figures/depal_02.jpg',this)">
+          <div class="thumb-label">figures/depal_02.jpg</div>
+        </div>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','figures/depal_01.jpg',this)">
+          <div class="thumb-label">figures/depal_01.jpg</div>
+        </div>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','figures/depal_01.jpg',this)">
+          <div class="thumb-label">figures/depal_01.jpg</div>
+        </div>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','figures/depal_03.jpg',this)">
+          <div class="thumb-label">figures/depal_03.jpg</div>
         </div>
       </div>
-      <div class="hardware-block">
-        <p class="hardware-label">Hardware</p>
-        <ul class="hardware-list">
-          <li>Photoneo Scanner</li>
-          <li>Mobile Base</li>
-          <li>Universal Robots UR10</li>
-          <li>Robotiq 2-Finger Gripper</li>
-        </ul>
-      </div>
+      <div class="media-strip-arrow right" onclick="this.previousElementSibling.scrollBy({left:200,behavior:'smooth'})">&#8250;</div>
     </div>
   </div>
+
+  <div class="project-info-row">
+    <div>
+      <p class="project-tagline">Structured Light · 3D Perception · Mobile Robots</p>
+      <p class="project-desc">
+        Autonomous detection and manipulation of large structural components on the shipyard
+        floor, one of the most challenging environments for computer vision: metallic surfaces,
+        outdoor lighting variation, and heavy occlusion. Built the full 2D/3D perception stack
+        using a Photoneo PhoXi structured-light camera for high-accuracy reconstruction
+        and robust component localisation.
+      </p>
+      <div class="project-tech">
+        <span class="tech-pill">CNN</span>
+        <span class="tech-pill">ROS</span>
+        <span class="tech-pill">C++</span>
+        <span class="tech-pill">PCL</span>
+        <span class="tech-pill">TensorFlow</span>
+        <span class="tech-pill">Photoneo PhoXi</span>
+      </div>
+      <div class="project-links">
+        <span class="proj-link" style="opacity:.4; cursor:default">Private Code</span>
+        <a href="https://www.mdpi.com/2079186" class="proj-link" target="_blank">Paper →</a>
+      </div>
+    </div>
+    <div class="hardware-block">
+      <p class="hardware-label">Hardware</p>
+      <ul class="hardware-list">
+        <li>Photoneo Scanner</li>
+        <li>Mobile Base</li>
+        <li>Universal Robots UR10</li>
+        <li>Robotiq 2-Finger Gripper</li>
+      </ul>
+    </div>
+  </div>
+</div>
 
   <div class="rule"><hr></div>
 
@@ -753,48 +792,79 @@
     </div>
 
     <div class="project-media">
-      <div class="media-primary" id="p04-main">
-        <video autoplay muted loop playsinline>
-          <source src="videos/warehouse.mp4" type="video/mp4">
-        </video>
-        <div class="media-placeholder">videos/warehouse.mp4</div>
-      </div>
-      <!-- no strip: only one piece of media -->
+    <div class="media-primary" id="p04-main">
+      <iframe
+        src="https://youtu.be/vBgUQ1Zski8?si=5khdUN-vBFk5wqDV"
+        title="Automated Depalletizer demo"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
     </div>
-
-    <div class="project-info-row">
-      <div>
-        <p class="project-tagline">Mobile Manipulation · Logistics</p>
-        <p class="project-desc">
-          Perception, planning, and task management backbone for a mobile manipulators in a live warehouse with dynamic layouts and mixed SKUs.
-          Built the full perception pipeline — detection, segmentation, grasp pose generation —
-          and the mission manager coordinating multi-robot operations, failures, and retries.
-        </p>
-        <div class="project-tech">
-          <span class="tech-pill">PyTorch</span>
-          <span class="tech-pill">CNN</span>
-          <span class="tech-pill">RGB-D</span>
-          <span class="tech-pill">ROS2</span>
-          <span class="tech-pill">C++</span>
-          <span class="tech-pill">PCL</span>
-          <span class="tech-pill">OpenCV</span>
-          <span class="tech-pill">Onnx</span>
+    <div class="media-strip-wrapper">
+      <div class="media-strip-arrow left" onclick="this.nextElementSibling.scrollBy({left:-200,behavior:'smooth'})">&#8249;</div>
+      <div class="media-strip">
+        <div class="media-thumb active" data-type="video"
+            onclick="swap('p02-main','https://www.youtube.com/embed/YNhIOHdhT4g?start=274&rel=0',this)">
+          <img src="https://img.youtube.com/vi/YNhIOHdhT4g/mqdefault.jpg" alt="Video 1">
         </div>
-        <div class="project-links">
-          <a href="https://github.com/arturjcordeiro" class="proj-link primary" target="_blank">GitHub →</a>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','images/02/1.jpeg',this)">
+          <img src="images/02/1.jpeg" alt="Image 1">
+        </div>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','figures/depal_02.jpg',this)">
+          <div class="thumb-label">figures/depal_02.jpg</div>
+        </div>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','figures/depal_01.jpg',this)">
+          <div class="thumb-label">figures/depal_01.jpg</div>
+        </div>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','figures/depal_01.jpg',this)">
+          <div class="thumb-label">figures/depal_01.jpg</div>
+        </div>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','figures/depal_03.jpg',this)">
+          <div class="thumb-label">figures/depal_03.jpg</div>
         </div>
       </div>
-      <div class="hardware-block">
-        <p class="hardware-label">Hardware</p>
-        <ul class="hardware-list">
-          <li>Omnidirectional Mobile Base</li>
-          <li>Universal Robots UR10</li>
-          <li>Haptic Sensor</li>
-          <li>Vacuum Gripper</li>
-        </ul>
-      </div>
+      <div class="media-strip-arrow right" onclick="this.previousElementSibling.scrollBy({left:200,behavior:'smooth'})">&#8250;</div>
     </div>
   </div>
+
+  <div class="project-info-row">
+    <div>
+      <p class="project-tagline">Mobile Manipulation · Logistics</p>
+      <p class="project-desc">
+        Perception, planning, and task management backbone for a mobile manipulators in a live warehouse with dynamic layouts and mixed SKUs.
+        Built the full perception pipeline — detection, segmentation, grasp pose generation —
+        and the mission manager coordinating multi-robot operations, failures, and retries.
+      </p>
+      <div class="project-tech">
+        <span class="tech-pill">PyTorch</span>
+        <span class="tech-pill">CNN</span>
+        <span class="tech-pill">RGB-D</span>
+        <span class="tech-pill">ROS2</span>
+        <span class="tech-pill">C++</span>
+        <span class="tech-pill">PCL</span>
+        <span class="tech-pill">OpenCV</span>
+        <span class="tech-pill">Onnx</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/arturjcordeiro" class="proj-link primary" target="_blank">GitHub →</a>
+      </div>
+    </div>
+    <div class="hardware-block">
+      <p class="hardware-label">Hardware</p>
+      <ul class="hardware-list">
+        <li>Omnidirectional Mobile Base</li>
+        <li>Universal Robots UR10</li>
+        <li>Haptic Sensor</li>
+        <li>Vacuum Gripper</li>
+      </ul>
+    </div>
+  </div>
+</div>
 
   <div class="rule"><hr></div>
 
@@ -810,56 +880,76 @@
     </div>
 
     <div class="project-media">
-      <div class="media-primary" id="p05-main">
-        <img src="figures/qualitycontrol_main.jpg" alt="Welding gap inspection setup">
-        <div class="media-placeholder">figures/qualitycontrol_main.jpg</div>
-      </div>
-      <div class="media-strip" style="grid-template-columns: repeat(3, 1fr)">
-        <div class="media-thumb active" data-type="image"
-             onclick="swap('p05-main','img','figures/qualitycontrol_main.jpg',this)">
-          <div class="thumb-label">qualitycontrol_main.jpg</div>
-        </div>
-        <div class="media-thumb" data-type="image"
-             onclick="swap('p05-main','img','figures/qualitycontrol_01.jpg',this)">
-          <div class="thumb-label">qualitycontrol_01.jpg</div>
-        </div>
-        <div class="media-thumb" data-type="image"
-             onclick="swap('p05-main','img','figures/qualitycontrol_02.jpg',this)">
-          <div class="thumb-label">qualitycontrol_02.jpg</div>
-        </div>
-      </div>
+    <div class="media-primary" id="p05-main">
+      <iframe
+        src="https://youtu.be/vBgUQ1Zski8?si=5khdUN-vBFk5wqDV"
+        title="Automated Depalletizer demo"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
     </div>
-
-    <div class="project-info-row">
-      <div>
-        <p class="project-tagline">Quality Control · Aerospace · 3D Profiling</p>
-        <p class="project-desc">
-          Fully automated gap quality inspection system for welding components,
-          mounted on an ABB manipulator. Wrote the C# driver for real-time acquisition from a
-          Wenglor 2D/3D profile sensor, generated robot paths for full-coverage
-          inspection, and implemented configurable tolerance thresholds
-          with pass/fail reporting — replacing a fully manual process at sub-millimetre accuracy.
-        </p>
-        <div class="project-tech">
-          <span class="tech-pill">C#</span>
-          <span class="tech-pill">RAPID</span>
-          <span class="tech-pill">ABB IRB 2600</span>
-          <span class="tech-pill">2D/3D Profiler</span>
+    <div class="media-strip-wrapper">
+      <div class="media-strip-arrow left" onclick="this.nextElementSibling.scrollBy({left:-200,behavior:'smooth'})">&#8249;</div>
+      <div class="media-strip">
+        <div class="media-thumb active" data-type="video"
+            onclick="swap('p02-main','https://www.youtube.com/embed/YNhIOHdhT4g?start=274&rel=0',this)">
+          <img src="https://img.youtube.com/vi/YNhIOHdhT4g/mqdefault.jpg" alt="Video 1">
         </div>
-        <div class="project-links">
-          <a href="https://github.com/arturjcordeiro" class="proj-link primary" target="_blank">GitHub →</a>
-          <!-- no paper for this project -->
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','images/02/1.jpeg',this)">
+          <img src="images/02/1.jpeg" alt="Image 1">
+        </div>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','figures/depal_02.jpg',this)">
+          <div class="thumb-label">figures/depal_02.jpg</div>
+        </div>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','figures/depal_01.jpg',this)">
+          <div class="thumb-label">figures/depal_01.jpg</div>
+        </div>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','figures/depal_01.jpg',this)">
+          <div class="thumb-label">figures/depal_01.jpg</div>
+        </div>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','figures/depal_03.jpg',this)">
+          <div class="thumb-label">figures/depal_03.jpg</div>
         </div>
       </div>
-      <div class="hardware-block">
-        <p class="hardware-label">Hardware</p>
-        <ul class="hardware-list">
-          <li>ABB IRB 2600</li>
-          <li>Wenglor MLSL236 (2D/3D Profile Sensor)</li>
-        </ul>
-      </div>
+      <div class="media-strip-arrow right" onclick="this.previousElementSibling.scrollBy({left:200,behavior:'smooth'})">&#8250;</div>
     </div>
   </div>
+
+  <div class="project-info-row">
+    <div>
+      <p class="project-tagline">Quality Control · Aerospace · 3D Profiling</p>
+      <p class="project-desc">
+        Fully automated gap quality inspection system for welding components,
+        mounted on an ABB manipulator. Wrote the C# driver for real-time acquisition from a
+        Wenglor 2D/3D profile sensor, generated robot paths for full-coverage
+        inspection, and implemented configurable tolerance thresholds
+        with pass/fail reporting — replacing a fully manual process at sub-millimetre accuracy.
+      </p>
+      <div class="project-tech">
+        <span class="tech-pill">C#</span>
+        <span class="tech-pill">RAPID</span>
+        <span class="tech-pill">ABB IRB 2600</span>
+        <span class="tech-pill">2D/3D Profiler</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/arturjcordeiro" class="proj-link primary" target="_blank">GitHub →</a>
+        <!-- no paper for this project -->
+      </div>
+    </div>
+    <div class="hardware-block">
+      <p class="hardware-label">Hardware</p>
+      <ul class="hardware-list">
+        <li>ABB IRB 2600</li>
+        <li>Wenglor MLSL236 (2D/3D Profile Sensor)</li>
+      </ul>
+    </div>
+  </div>
+</div>
 
   <div class="rule"><hr></div>
 
@@ -874,45 +964,135 @@
     </div>
 
     <div class="project-media">
-      <div class="media-primary" id="p05-main">
-        <img src="figures/qualitycontrol_main.jpg" alt="Welding gap inspection setup">
-        <div class="media-placeholder">figures/qualitycontrol_main.jpg</div>
-      </div>
-      <div class="media-strip" style="grid-template-columns: repeat(3, 1fr)">
-        <div class="media-thumb active" data-type="image"
-             onclick="swap('p05-main','img','figures/qualitycontrol_main.jpg',this)">
-          <div class="thumb-label">qualitycontrol_main.jpg</div>
-        </div>
-        <div class="media-thumb" data-type="image"
-             onclick="swap('p05-main','img','figures/qualitycontrol_01.jpg',this)">
-          <div class="thumb-label">qualitycontrol_01.jpg</div>
-        </div>
-        <div class="media-thumb" data-type="image"
-             onclick="swap('p05-main','img','figures/qualitycontrol_02.jpg',this)">
-          <div class="thumb-label">qualitycontrol_02.jpg</div>
-        </div>
-      </div>
+    <div class="media-primary" id="p06-main">
+      <iframe
+        src="https://youtu.be/vBgUQ1Zski8?si=5khdUN-vBFk5wqDV"
+        title="Automated Depalletizer demo"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
     </div>
+    <div class="media-strip-wrapper">
+      <div class="media-strip-arrow left" onclick="this.nextElementSibling.scrollBy({left:-200,behavior:'smooth'})">&#8249;</div>
+      <div class="media-strip">
+        <div class="media-thumb active" data-type="video"
+            onclick="swap('p02-main','https://www.youtube.com/embed/YNhIOHdhT4g?start=274&rel=0',this)">
+          <img src="https://img.youtube.com/vi/YNhIOHdhT4g/mqdefault.jpg" alt="Video 1">
+        </div>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','images/02/1.jpeg',this)">
+          <img src="images/02/1.jpeg" alt="Image 1">
+        </div>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','figures/depal_02.jpg',this)">
+          <div class="thumb-label">figures/depal_02.jpg</div>
+        </div>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','figures/depal_01.jpg',this)">
+          <div class="thumb-label">figures/depal_01.jpg</div>
+        </div>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','figures/depal_01.jpg',this)">
+          <div class="thumb-label">figures/depal_01.jpg</div>
+        </div>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','figures/depal_03.jpg',this)">
+          <div class="thumb-label">figures/depal_03.jpg</div>
+        </div>
+      </div>
+      <div class="media-strip-arrow right" onclick="this.previousElementSibling.scrollBy({left:200,behavior:'smooth'})">&#8250;</div>
+    </div>
+  </div>
 
-    <div class="project-info-row" style="grid-template-columns: 1fr;">
-      <div>
-        <p class="project-tagline">Deep Learning Data Synthesis</p>
-        <p class="project-desc">
-          Autonomous system to generate synthetic data for deep learning models, classification, localization, and pose estimation.
-        </p>
-        <div class="project-tech">
-          <span class="tech-pill">Python</span>
-          <span class="tech-pill">Blender</span>
-          <span class="tech-pill">CNN</span>
-          <span class="tech-pill">Cycle render</span>
-        </div>
-        <div class="project-links">
-          <span class="proj-link" style="opacity:.4; cursor:default">Private Code</span>
-          <a href="https://www.sciencedirect.com/science/article/abs/pii/S0360835225002852" class="proj-link" target="_blank">Paper →</a>
-        </div>
+  <div class="project-info-row" style="grid-template-columns: 1fr;">
+    <div>
+      <p class="project-tagline">Deep Learning Data Synthesis</p>
+      <p class="project-desc">
+        Autonomous system to generate synthetic data for deep learning models, classification, localization, and pose estimation.
+      </p>
+      <div class="project-tech">
+        <span class="tech-pill">Python</span>
+        <span class="tech-pill">Blender</span>
+        <span class="tech-pill">CNN</span>
+        <span class="tech-pill">Cycle render</span>
+      </div>
+      <div class="project-links">
+        <span class="proj-link" style="opacity:.4; cursor:default">Private Code</span>
+        <a href="https://www.sciencedirect.com/science/article/abs/pii/S0360835225002852" class="proj-link" target="_blank">Paper →</a>
       </div>
     </div>
   </div>
+</div>
+
+  <!-- ══════════════════════════════════
+       07  Calibration
+  ══════════════════════════════════ -->
+  <div class="project reveal">
+    <div class="project-topbar">
+      <span class="project-num">07</span>
+      <h3 class="project-name">Robot-Sensor's Calibration</h3>
+    </div>
+
+    <div class="project-media">
+    <div class="media-primary" id="p07-main">
+      <iframe
+        src="https://youtu.be/vBgUQ1Zski8?si=5khdUN-vBFk5wqDV"
+        title="Automated Depalletizer demo"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+    <div class="media-strip-wrapper">
+      <div class="media-strip-arrow left" onclick="this.nextElementSibling.scrollBy({left:-200,behavior:'smooth'})">&#8249;</div>
+      <div class="media-strip">
+        <div class="media-thumb active" data-type="video"
+            onclick="swap('p02-main','https://www.youtube.com/embed/YNhIOHdhT4g?start=274&rel=0',this)">
+          <img src="https://img.youtube.com/vi/YNhIOHdhT4g/mqdefault.jpg" alt="Video 1">
+        </div>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','images/02/1.jpeg',this)">
+          <img src="images/02/1.jpeg" alt="Image 1">
+        </div>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','figures/depal_02.jpg',this)">
+          <div class="thumb-label">figures/depal_02.jpg</div>
+        </div>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','figures/depal_01.jpg',this)">
+          <div class="thumb-label">figures/depal_01.jpg</div>
+        </div>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','figures/depal_01.jpg',this)">
+          <div class="thumb-label">figures/depal_01.jpg</div>
+        </div>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','figures/depal_03.jpg',this)">
+          <div class="thumb-label">figures/depal_03.jpg</div>
+        </div>
+      </div>
+      <div class="media-strip-arrow right" onclick="this.previousElementSibling.scrollBy({left:200,behavior:'smooth'})">&#8250;</div>
+    </div>
+  </div>
+
+  <div class="project-info-row" style="grid-template-columns: 1fr;">
+    <div>
+      <p class="project-tagline">Deep Learning Data Synthesis</p>
+      <p class="project-desc">
+        Autonomous system to generate synthetic data for deep learning models, classification, localization, and pose estimation.
+      </p>
+      <div class="project-tech">
+        <span class="tech-pill">Python</span>
+        <span class="tech-pill">Blender</span>
+        <span class="tech-pill">CNN</span>
+        <span class="tech-pill">Cycle render</span>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/arturjcordeiro/aruco_detector" class="proj-link" target="_blank">GitHub →</a>
+        <a href="https://www.sciencedirect.com/science/article/abs/pii/S0360835225002852" class="proj-link" target="_blank">Paper →</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 </div><!-- /projects -->
 
@@ -958,22 +1138,23 @@
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
   /* Media swap */
-  function swap(slotId, type, src, thumb) {
-    thumb.closest('.media-strip')
-         .querySelectorAll('.media-thumb')
-         .forEach(t => t.classList.remove('active'));
+  function swap(containerId, src, thumb) {
+    const container = document.getElementById(containerId);
+
+    container.closest('.project-media')
+      .querySelectorAll('.media-thumb')
+      .forEach(t => t.classList.remove('active'));
     thumb.classList.add('active');
 
-    const slot = document.getElementById(slotId);
-    if (type === 'iframe') {
-      slot.innerHTML = `<iframe src="${src}" allowfullscreen
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
-        </iframe>`;
-    } else if (type === 'video') {
-      slot.innerHTML = `<video autoplay muted loop playsinline>
-        <source src="${src}" type="video/mp4"></video>`;
-    } else {
-      slot.innerHTML = `<img src="${src}" alt="">`;
+    if (src.includes('youtube.com') || src.includes('youtu.be')) {
+      container.innerHTML = `
+        <iframe src="${src}"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>`;
+    } else if (src.match(/\.(mp4|webm|ogg)$/i)) {
+      container.innerHTML = `<video src="${src}" controls autoplay></video>`;
+    } else if (src.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i)) {  // ← add jpeg here
+      container.innerHTML = `<img src="${src}" alt="">`;
     }
   }
 </script>
