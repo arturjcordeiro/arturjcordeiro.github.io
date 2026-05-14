@@ -209,7 +209,7 @@
       position: absolute;
       inset: 0;
       width: 100%; height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       border: none;
     }
     .media-placeholder {
@@ -299,10 +299,15 @@
     }
     .media-thumb:hover { border-color: var(--accent); }
     .media-thumb.active { border-color: var(--ink); }
-    .media-thumb img,
+    .media-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    }
+
     .media-thumb video {
       width: 100%; height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       pointer-events: none;
     }
     .media-thumb[data-type="video"]::after {
@@ -537,30 +542,20 @@
       <div class="media-strip-arrow left" onclick="this.nextElementSibling.scrollBy({left:-200,behavior:'smooth'})">&#8249;</div>
       <div class="media-strip">
         <div class="media-thumb active" data-type="video"
-             onclick="swap('p01-main','iframe','https://www.youtube.com/embed/YNhIOHdhT4g?start=274&rel=0',this)">
+             onclick="swap('p01-main','https://www.youtube.com/embed/YNhIOHdhT4g?start=274&rel=0',this)">
           <img src="https://img.youtube.com/vi/YNhIOHdhT4g/mqdefault.jpg" alt="Video 1">
         </div>
         <div class="media-thumb" data-type="image"
-             onclick="swap('p01-main','img','figures/depal_01.jpg',this)">
-          <div class="thumb-label">figures/depal_01.jpg</div>
+            onclick="swap('p01-main','images/01/1.png',this)">
+          <img src="images/01/1.png" alt="Image 1">
         </div>
         <div class="media-thumb" data-type="image"
-             onclick="swap('p01-main','img','figures/depal_02.jpg',this)">
-          <div class="thumb-label">figures/depal_02.jpg</div>
+            onclick="swap('p01-main','images/01/2.png',this)">
+          <img src="images/01/2.png" alt="Image 2">
         </div>
-        <!-- NEW: 2 more videos -->
-        <div class="media-thumb" data-type="image"
-             onclick="swap('p01-main','img','figures/depal_01.jpg',this)">
-          <div class="thumb-label">figures/depal_01.jpg</div>
-        </div>
-        <div class="media-thumb" data-type="image"
-             onclick="swap('p01-main','img','figures/depal_01.jpg',this)">
-          <div class="thumb-label">figures/depal_01.jpg</div>
-        </div>
-        <!-- NEW: 1 more image -->
-        <div class="media-thumb" data-type="image"
-             onclick="swap('p01-main','img','figures/depal_03.jpg',this)">
-          <div class="thumb-label">figures/depal_03.jpg</div>
+        <div class="media-thumb active" data-type="video"
+            onclick="swap('p01-main','videos/01/1.mp4',this)">
+          <img src="videos/01/1_thumb.png" alt="Video 2">
         </div>
       </div>
       <div class="media-strip-arrow right" onclick="this.previousElementSibling.scrollBy({left:200,behavior:'smooth'})">&#8250;</div>
@@ -627,28 +622,32 @@
       <div class="media-strip-arrow left" onclick="this.nextElementSibling.scrollBy({left:-200,behavior:'smooth'})">&#8249;</div>
       <div class="media-strip">
         <div class="media-thumb active" data-type="video"
-            onclick="swap('p02-main','https://www.youtube.com/embed/YNhIOHdhT4g?start=274&rel=0',this)">
-          <img src="https://img.youtube.com/vi/YNhIOHdhT4g/mqdefault.jpg" alt="Video 1">
+            onclick="swap('p02-main','videos/02/1.mp4',this)">
+          <img src="videos/02/1_thumb.png" alt="Video 1">
         </div>
         <div class="media-thumb" data-type="image"
             onclick="swap('p02-main','images/02/1.jpeg',this)">
           <img src="images/02/1.jpeg" alt="Image 1">
         </div>
         <div class="media-thumb" data-type="image"
-            onclick="swap('p02-main','figures/depal_02.jpg',this)">
-          <div class="thumb-label">figures/depal_02.jpg</div>
+            onclick="swap('p02-main','images/02/2.jpeg',this)">
+          <img src="images/02/2.jpeg" alt="Image 2">
         </div>
         <div class="media-thumb" data-type="image"
-            onclick="swap('p02-main','figures/depal_01.jpg',this)">
-          <div class="thumb-label">figures/depal_01.jpg</div>
+            onclick="swap('p02-main','images/02/3.jpeg',this)">
+          <img src="images/02/3.jpeg" alt="Image 3">
         </div>
         <div class="media-thumb" data-type="image"
-            onclick="swap('p02-main','figures/depal_01.jpg',this)">
-          <div class="thumb-label">figures/depal_01.jpg</div>
+            onclick="swap('p02-main','images/02/4.png',this)">
+          <img src="images/02/4.png" alt="Image 4">
         </div>
         <div class="media-thumb" data-type="image"
-            onclick="swap('p02-main','figures/depal_03.jpg',this)">
-          <div class="thumb-label">figures/depal_03.jpg</div>
+            onclick="swap('p02-main','images/02/5.jpg',this)">
+          <img src="images/02/5.jpg" alt="Image 5">
+        </div>
+        <div class="media-thumb" data-type="image"
+            onclick="swap('p02-main','images/02/6.jpeg',this)">
+          <img src="images/02/6.jpeg" alt="Image 6">
         </div>
       </div>
       <div class="media-strip-arrow right" onclick="this.previousElementSibling.scrollBy({left:200,behavior:'smooth'})">&#8250;</div>
@@ -705,8 +704,8 @@
     <div class="project-media">
     <div class="media-primary" id="p03-main">
       <iframe
-        src="https://youtu.be/vBgUQ1Zski8?si=5khdUN-vBFk5wqDV"
-        title="Automated Depalletizer demo"
+        src="https://www.youtube.com/watch?v=vBgUQ1Zski8"
+        title="SHIPYARD"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen>
       </iframe>
@@ -715,28 +714,32 @@
       <div class="media-strip-arrow left" onclick="this.nextElementSibling.scrollBy({left:-200,behavior:'smooth'})">&#8249;</div>
       <div class="media-strip">
         <div class="media-thumb active" data-type="video"
-            onclick="swap('p02-main','https://www.youtube.com/embed/YNhIOHdhT4g?start=274&rel=0',this)">
-          <img src="https://img.youtube.com/vi/YNhIOHdhT4g/mqdefault.jpg" alt="Video 1">
+            onclick="swap('p03-main','https://www.youtube.com/watch?v=vBgUQ1Zski8?start=274&rel=0',this)">
+          <img src="https://img.youtube.com/vi/vBgUQ1Zski8/mqdefault.jpg" alt="Video 1">
+        </div>
+        <div class="media-thumb active" data-type="video"
+            onclick="swap('p03-main','https://www.youtube.com/watch?v=XDCN7my3lKU?start=274&rel=0',this)">
+          <img src="https://img.youtube.com/vi/XDCN7my3lKU/mqdefault.jpg" alt="Video 1">
         </div>
         <div class="media-thumb" data-type="image"
-            onclick="swap('p02-main','images/02/1.jpeg',this)">
-          <img src="images/02/1.jpeg" alt="Image 1">
+            onclick="swap('p03-main','images/03/1.png',this)">
+          <img src="images/03/1.png" alt="Image 1">
         </div>
         <div class="media-thumb" data-type="image"
-            onclick="swap('p02-main','figures/depal_02.jpg',this)">
-          <div class="thumb-label">figures/depal_02.jpg</div>
+            onclick="swap('p03-main','images/03/2.png',this)">
+          <img src="images/03/2.png" alt="Image 2">
         </div>
         <div class="media-thumb" data-type="image"
-            onclick="swap('p02-main','figures/depal_01.jpg',this)">
-          <div class="thumb-label">figures/depal_01.jpg</div>
+            onclick="swap('p03-main','images/03/3.png',this)">
+          <img src="images/03/3.png" alt="Image 3">
         </div>
         <div class="media-thumb" data-type="image"
-            onclick="swap('p02-main','figures/depal_01.jpg',this)">
-          <div class="thumb-label">figures/depal_01.jpg</div>
+            onclick="swap('p03-main','images/03/4.jpg',this)">
+          <img src="images/03/4.jpg" alt="Image 4">
         </div>
         <div class="media-thumb" data-type="image"
-            onclick="swap('p02-main','figures/depal_03.jpg',this)">
-          <div class="thumb-label">figures/depal_03.jpg</div>
+            onclick="swap('p03-main','images/03/5.png',this)">
+          <img src="images/03/5.png" alt="Image 5">
         </div>
       </div>
       <div class="media-strip-arrow right" onclick="this.previousElementSibling.scrollBy({left:200,behavior:'smooth'})">&#8250;</div>
